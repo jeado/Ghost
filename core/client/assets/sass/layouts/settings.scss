@@ -1,325 +1,430 @@
-/*
- * These styles control elements specific to the settings screen
- * used for configuring your Ghost install.
- *
- * Table of Contents:
- *
- * General
- * Sidebar
- * Content
- *
- */
+//
+// Settings
+// --------------------------------------------------
+// Slug: /ghost/settings/
+// --------------------------------------------------
 
 
-/* =============================================================================
-   Settings
-   ============================================================================= */
+//
+// Sidebar
+// --------------------------------------------------
 
-.settings {
-    // The main white bg for the page
-    .wrapper {
-        background: #fff;
-        box-shadow: $shadow;
-        position: relative;
+// Settings navigation
+.settings-nav {
+    width: 25%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 700;
+    background: #fff;
+    box-shadow: $lightbrown 1px 0 0;
+    @media (max-width: 900px) {
         width: 100%;
-        height: 100%;
-        margin:0;
-        padding:0;
-
-        @include breakpoint($tablet) {
-            overflow-x: hidden;
-        }
     }
 
-    .title {
-        text-transform: uppercase;
-        font-weight: normal;
-        font-size: 1.6em;
-        line-height: 0.8em;
-        margin:0 0 18px 0;
-        padding:0;
-        border: none;
-    }
-
-
-/* =============================================================================
-   Sidebar
-   ============================================================================= */
-
-    //The whole left column sidebar, duh.
-    .settings-sidebar {
-        width:20%;
-        position:absolute;
-        top:0;
-        left:0;
-        bottom:0;
-        z-index: 700;
-        background: #fff;
-        box-shadow: $lightbrown 1px 0 0;
-        @include breakpoint($tablet) {
-            width:100%;
-            box-shadow: none;
-        }
-
-        > header {
-            position: relative;
-            z-index: 400;
-            height: 17px;
-            padding: 30px 15px 30px 40px;
-            margin-bottom: 0;
-            border-bottom: none;
-            box-shadow: #edece4 0 -1px 0 inset, #edece4 1px 0 0;
-            //Transparent gradient to make bg fade out as it goes out the top.
-            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(25%,rgba(255,255,255,1)), color-stop(100%,rgba(255,255,255,0.90)));
-            background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(255,255,255,1) 25%,rgba(255,255,255,0.90) 100%);
-            background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(255,255,255,1) 25%,rgba(255,255,255,0.90) 100%);
-
-            @include breakpoint($netbook) {
-                padding-left: 15px;
-            };
-        }
-    }//.settings-sidebar
-
-    //Main settings-menu styles, apply to every item
-    .settings-menu {
-        position:absolute;
+    @media (max-width: 900px) {
         top: 0;
-        left:0;
-        bottom:0;
-        right:-1px;
-        overflow: auto;
-        @include breakpoint($tablet) { right:0; };
+    }
 
-        // Create placeholder the same height as the floating header
-        // to push content down by the same amount
+    ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        border-top: none;
+        @media (max-width: 900px) { border-bottom: #edece4 1px solid; }
+    }
+
+    li {
+        border-top: #fff 1px solid;
+        position: relative;
+        @media (max-width: 900px) {
+            margin-right: 0;
+            border-top: #edece4 1px solid;
+        }
+
+        // The icon
         &:before {
+            position: absolute;
+            top: 50%;
+            left: 30px;
+            transform: translateY(-50%);
+
+            transition: color 0.1s;
+            color: $brown;
+
+            @media (max-width: 900px) {
+                left: 15px;
+            }
+        }
+        &:hover:before {
+            color: $darkgrey;
+        }
+
+        a {
             display: block;
-            content: "";
-            height: 77px; //30px + 17px title + 30px
+            border-bottom: $lightbrown 1px solid;
+            padding: 15px 15px 15px 60px;
+            border-bottom: none;
+            color: $brown;
+
+            @media (max-width: 900px) {
+                padding-left: 45px;
+                @include icon-after($i-chevron) {
+                    float: right;
+                    margin-top: 5px;
+                }
+            }
+
+            &:hover,
+            &:focus {
+                color: $darkgrey;
+                background: $lightbrown;
+                text-decoration: none;
+            }
+
+            // Make space for icons
+            &:before {
+                margin-right: 20px;
+                @media (max-width: 900px) {
+                    margin-right: 15px;
+                }
+            }
         }
 
-        ul {
-            border-top:none;
-            @include breakpoint($tablet) { border-bottom: #edece4 1px solid; }
-        }
+        &.active {
+            @media (min-width: 900px) {
+                // only apply active styles on larger devices
 
-        li {
-            margin-right:1px;
-            border-top: #fff 1px solid;
-            @include breakpoint($tablet) {
-                margin-right:0;
+                // The icon
+                &:before {
+                    color: $darkgrey;
+                }
+
+                margin-right: 0;
+                position: relative;
+                z-index: 300;
                 border-top: #edece4 1px solid;
-            }
+                box-shadow: #fff 1px 0 0, #edece4 0 1px 0;
+                transition: all 0.15s ease-out 0s;
 
-            a {
-                padding:15px 15px 15px 40px;
-                border-bottom:none;
-                @include breakpoint($netbook) { padding-left: 15px; }
-                @include breakpoint($tablet) {
-                    @include icon-after($i-chevron) {float:right;margin-top:5px;};
-                }
-            }
-
-            &:first-child { border-top: none; }
-            &:first-child.active { border-top:none; }
-
-            &.active {
-                @include breakpoint($biggerthan-tablet) {
-                    // only apply active styles on larger devices
-
-                    margin-right:0;
-                    position:relative;
-                    z-index: 300;
-                    border-top: #edece4 1px solid;
-                    box-shadow:
-                        #fff 1px 0 0,
-                        #edece4 0 1px 0;
-                    @include transition;
-
-                    a {
-                        color: $darkgrey;
-                        font-weight: bold;
-                        background: #fff;
-
+                a {
+                    color: $darkgrey;
+                    font-weight: bold;
+                    background: #fff;
+                    &:focus {
+                        background: $lightbrown;
                     }
-
                 }
-            }//.active
 
-        }//li
-
-        // Give all icons some space
-        li a:before {
-            margin-right: 20px;
-            @include breakpoint($netbook) {
-                margin-right: 15px;
             }
+        } // .active
+
+        &:first-of-type {
+            border-top: none;
+        }
+        &:first-of-type.active {
+            border-top: none;
         }
 
-        // Add the icons for specific menu items
-        .general a { @include icon($i-settings) }
-        .publishing a { @include icon($i-content) }
-        .services a { @include icon($i-services) }
-        .users a { @include icon($i-users) }
-        .appearance a { @include icon($i-appearance) }
-        .apps a { @include icon($i-plugins) }
+    } // li
 
-    }//.settings-menu
+} // .settings-nav
 
 
-/* =============================================================================
-   Content
-   ============================================================================= */
+//
+// Content
+// --------------------------------------------------
 
-    // The main content panel on the right
-    .settings-content {
-        padding:0;
-        position:absolute;
-        top:0;
-        right:0;
-        left:20%;
-        bottom:0;
-        background: #fff;
+// The main content panel on the right
+.settings-content {
 
-        @include breakpoint($tablet) {
+    @media (max-width: 900px) {
+        &.fade-in {
+            animation: none;
+        }
+    }
+
+    @media (min-width: 901px) {
+        position: absolute;
+        top: 0;
+        right: 0;
+        left: 25%;
+        bottom: 0;
+
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .settings-general img {
+        max-width: 100%;
+        max-height: 400px;
+        display: block;
+    }
+
+    .content {
+        padding: 40px;
+
+        @media (max-width: 900px) {
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+        @media (max-width: 550px) {
+            padding-top: 15px;
+        }
+
+        @media (max-width: 900px) {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            overflow-x: hidden;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+    } // .content
+
+    .word-count {
+        float: right;
+        font-weight: bold;
+    }
+} // .settings-content
+
+// This is the header for /ghost/settings/view/
+// It's black and fixed position at the top of the screen
+.settings-view-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 3000;
+    height: 44px;
+    line-height: 44px;
+    text-align: center;
+    color: #fff;
+    background: #242628;
+    overflow: hidden;
+
+    .btn-back {
+        position: absolute;
+        top: 4px;
+        left: 4px;
+        color: #fff;
+        background: transparent;
+    }
+
+    .btn {
+        vertical-align: top;
+        line-height: 1.45;
+    }
+
+    .page-actions {
+        position: absolute;
+        top: 4px;
+        right: 4px;
+
+    }
+
+    // Desktop
+    // On larger viewports, make it look like a simple heading
+    @media (min-width: 900px) {
+        position: static;
+        height: auto;
+        padding: 30px 40px;
+        text-align: left;
+        line-height: 1.15em;
+        background: none;
+
+        .btn-back {
             display: none;
-            width: 100%;
-            left: 100%;
-            right: -100%;
-            margin-left: 15px;
+            vertical-align: middle;
+            color: #666;
         }
 
-        img {
-            max-width: 100%;
+        .btn {
+            vertical-align: middle;
+            line-height: 1.428571429;
         }
 
-        display: none;
-        &.active {display:block;}
-
-        > header {
-            position: relative;
-            z-index: 200;
-            height: 17px;
-            padding: 30px 220px 29px 40px;
-            border-bottom:$lightbrown 1px solid;
-            margin-bottom:40px;
-            text-transform: none;
-            font-weight: normal;
-            line-height: inherit;
-            color: inherit;
-            //Transparent gradient to make bg fade out as it goes out the top.
-            background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(255,255,255,1) 25%, rgba(255,255,255,0.90) 100%);
-            background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(25%,rgba(255,255,255,1)), color-stop(100%,rgba(255,255,255,0.90)));
-            background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(255,255,255,1) 25%,rgba(255,255,255,0.90) 100%);
-            background: -o-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(255,255,255,1) 25%,rgba(255,255,255,0.90) 100%);
-            background: -ms-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(255,255,255,1) 25%,rgba(255,255,255,0.90) 100%);
-            background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(255,255,255,1) 25%,rgba(255,255,255,0.90) 100%);
-
-            @include breakpoint($netbook) { padding-left:15px; }
-            @include breakpoint($tablet) { padding-left:115px; }
-            @include breakpoint($letterbox) {
-                height: auto;
-                padding: 5px;
-                position: absolute;
-                top:0;
-                right:0;
-                border:none;
-                background: transparent;
-
-                .title { display:none; }
-            }
-            @include breakpoint(650px) {
-                padding-left:15px;
-
-                .button-back {
-                    position: fixed;
-                    top: 5px;
-                    left: 14px;
-                    min-height: 0;
-                    height: 30px;
-
-                    &:before {
-                        left: -9px;
-                        border-width: 15px 9px 15px 0;
-                    }
-                }
-            }
-
-        }//header
+        .page-title {
+            display: inline;
+            padding: 0;
+            font-size: 2.6rem;
+            line-height: 1.3;
+            overflow: visible;
+            color: $darkgrey;
+        }
 
         .page-actions {
-            position:absolute;
-            top:20px;
-            right:40px;
-            z-index: 700;
-            font-size: 1em;
-
-            @include breakpoint($netbook) { right:15px; }
-            @include breakpoint(650px) {
-                position: fixed;
-                top: 5px;
-                right: 4px;
-
-                button {
-                    min-height: 0;
-                    height: 30px;
-                    padding: 0.5em 1.37em;
-                }
-            }
-
-            .button-add {
-                position:relative;
-                padding-left:50px;
-                @include icon($i-add, 1.4em, rgba(255,255,255,0.6)) {
-                    position: absolute;
-                    top:0;
-                    padding:9px 8px 0 0;
-                    left:9px;
-                    bottom:0;
-                    width: 20px;
-                    border-right: darken($green, 8%) 1px solid;
-                };
-            }
-        }
-
-        .content {
-            position: absolute;
-            top:0;
-            right:0;
-            left:0;
-            bottom:0;
-            padding:40px;
-            overflow: auto;
-            -webkit-overflow-scrolling: touch;
-
-            // Create placeholder the same height as the floating header
-            // to push content down by the same amount
-            &:before {
-                display: block;
-                content: "";
-                height: 77px; //30px + 17px title + 30px
-                @include breakpoint($letterbox) { display: none; }
-            }
-
-            &.no-padding {
-                padding: 0;
-            }
-
-            @include breakpoint($netbook) { padding-left:15px; }
-            @include breakpoint(550px) { padding: 0 15px 40px; }
-        }
-
-        .description-container, .bio-container {
-            max-width: 370px;
-        }
-
-        .word-count {
-            margin-right: 30px;
+            position: static;
             float: right;
-            font-weight: bold;
-            color: darken($brown, 5%);
+        }
+    }
+}
+
+
+// This is the header for /ghost/settings/view/subview/
+// It's black and fixed position at the top of the screen
+.settings-subview-header {
+    @include clearfix;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 3000;
+    height: 44px;
+    line-height: 44px;
+    text-align: center;
+    color: #fff;
+    background: #242628;
+
+    .btn-back {
+        position: absolute;
+        top: 4px;
+        left: 4px;
+        color: #fff;
+        background: transparent;
+    }
+
+    .btn {
+        vertical-align: top;
+        line-height: 1.45;
+    }
+
+    .page-actions {
+        position: absolute;
+        top: 4px;
+        right: 4px;
+
+    }
+
+    // Desktop
+    // On larger viewports, make it look like a simple heading
+    @media (min-width: 900px) {
+        position: static;
+        height: auto;
+        padding: 30px 40px;
+        line-height: 1.15em;
+        background: none;
+
+        .btn-back {
+            position: static;
+            float:left;
+            color: #666;
         }
 
-    }//.settings-content
+        .btn {
+            vertical-align: middle;
+            line-height: 1.428571429;
+        }
 
-}//.settings
+        .page-title {
+            display: inline;
+            padding: 0;
+            font-size: 2.6rem;
+            line-height: 1.3;
+            overflow: visible;
+            color: $darkgrey;
+        }
+
+        .page-actions {
+            position: static;
+            float: right;
+        }
+    }
+}
+
+
+
+// Custom permalink
+.permalink-input-wrapper {
+    position: relative;
+    outline: 0; // Kills the blue outline we get by adding tabindex="0"
+    padding-top: 6px;
+    padding-bottom: 6px;
+
+    &:focus,
+    &.focus {
+        border-color: $brown;
+
+        // The button-looking thing that opens a popover
+        .permalink-help {
+            border-color: $brown;
+        }
+    }
+
+    // A div that _looks_ like an input, but is a div
+    .permalink-fake-input {
+        display: flex;
+        flex-wrap: wrap;
+        margin-right: 26px;
+    }
+
+    .permalink-domain {
+        padding-right: 3px;
+        color: #7E878B;
+    }
+
+    // A collection of labels showing the URL structure
+    .permalink-structure {
+
+        .permalink-parameter {
+            position: relative;
+            top: -2px;
+            margin-left: 6px;
+
+            // The slash before each parameter
+            &:before {
+                content: "/";
+                position: absolute;
+                top: 4px;
+                left: -8px;
+                font-size: 1.4rem;
+                color: #7E878B;
+            }
+        }
+    }
+
+    // The actual input, which resets some styles inherited from the global input style
+    .permalink-input {
+        flex: 1 0;
+        margin: -6px 0 -6px -2px;
+        padding: 0 4px;
+        background: transparent;
+        min-width: 60px;
+        min-height: 30px;
+        border: 0;
+    }
+
+    // Shove the popover button and its container over to the right
+    .popover,
+    .permalink-help {
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 36px;
+    }
+
+    // Simple styles for the popover button-looking thing
+    .permalink-help {
+        border-left: 1px solid #E0DFD7;
+        transition: border-color 0.15s linear;
+
+        &:before {
+            color: #E0DFD7;
+            transition: color 0.15s linear;
+        }
+
+        &:hover:before {
+            color: $brown;
+        }
+    }
+
+    // Shift the popover (than opens over the top of everything) to the left a bit
+    .popover-item {
+        margin-left: -5px;
+    }
+}//.permalink-input-wrapper
